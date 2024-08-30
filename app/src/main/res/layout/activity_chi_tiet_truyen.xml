@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ManChiTietTruyen">
+
+    <!-- LinearLayout chứa ImageView và TextView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <!-- ImageView cho ảnh của truyện -->
+        <ImageView
+            android:id="@+id/imgTruyen"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/doraemon" />
+
+        <!-- TextView cho tên truyện -->
+        <TextView
+            android:id="@+id/txtTenTruyen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="Tên truyện tranh"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- RatingBar cho rating của truyện -->
+
+    <!-- TextView cho chi tiết truyện -->
+    <LinearLayout
+        android:background="#A8000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <!-- TextView cho chữ "Rating:" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating:"
+            android:textSize="30sp"
+
+            android:layout_gravity="center_vertical"/>
+
+        <!-- RatingBar cho rating của truyện -->
+        <RatingBar
+            android:id="@+id/ratingTruyen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:numStars="5"
+            android:rating="4.5"
+            android:stepSize="0.5"
+            android:isIndicator="true"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtChiTiet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chi tiết truyện:"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- ListView cho danh sách chương -->
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chương truyện:"
+        android:layout_marginBottom="8dp"/>
+    <!-- Button để đọc truyện -->
+    <ListView
+        android:id="@+id/listViewChapters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnDocTruyen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đọc"
+        android:layout_marginTop="16dp" />
+
+    <!-- TextView cho bình luận -->
+    <TextView
+        android:id="@+id/txtBinhLuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bình luận"
+        android:layout_marginTop="16dp" />
+
+    <!-- Placeholder cho danh sách bình luận -->
+    <TextView
+        android:id="@+id/commentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Danh sách bình luận ở đây" />
+
+</LinearLayout>
