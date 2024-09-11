@@ -3,35 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="#ffffff"> <!-- Có thể thêm background để tạo nét đồng bộ -->
 
+    <!-- Image View để hiển thị hình ảnh -->
     <ImageView
         android:id="@+id/imgTruyen"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/doraemon" /> <!-- Đặt ảnh mặc định hoặc thêm ảnh khi cần -->
+        android:src="@drawable/doraemon" /> <!-- Thêm ảnh mặc định hoặc Glide tải từ URL -->
 
+    <!-- Layout chứa thông tin về tiêu đề và thời gian đọc -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="8dp">
 
+        <!-- Tiêu đề truyện -->
         <TextView
             android:id="@+id/txtTenTruyen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black" />
+            android:text="Tên truyện"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
+        <!-- Thời gian đọc -->
         <TextView
             android:id="@+id/txtThoiGianDoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:text="Thời gian đọc"
+            android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
     </LinearLayout>
-
 </LinearLayout>

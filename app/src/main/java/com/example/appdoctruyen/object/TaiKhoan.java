@@ -19,6 +19,9 @@ public class TaiKhoan {
         this.mEmail = mEmail;
     }
 
+    public TaiKhoan(int id, String username, String s, String email, int role) {
+    }
+
 
     public int getmId() {
         return mId;

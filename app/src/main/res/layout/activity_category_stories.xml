@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/light_background"> <!-- Set a light background color -->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewStories"
+    <!-- Title with bold and color styling, centered horizontally -->
+    <TextView
+        android:id="@+id/txtTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="56dp"
+        android:text="Các loại truyện"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorPrimary"/>
+
+    <!-- ListView for categories with colored items -->
+    <ListView
+        android:id="@+id/listViewCategories"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:background="@android:color/white" />
+
+</LinearLayout>

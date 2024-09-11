@@ -1,9 +1,7 @@
 package com.example.appdoctruyen;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,11 +10,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -38,7 +34,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     GridView gdvDSTruyen;
@@ -96,22 +91,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        // Navigate to home activity or perform home action
-                        Intent homeIntent = new Intent(MainActivity.this, MainActivity.class);
-                        startActivity(homeIntent);
-                        return true;
-                    case R.id.category:
-                        // Navigate to category activity or perform category action
-                        Intent categoryIntent = new Intent(MainActivity.this, ManDanhMuc.class);
-                        startActivity(categoryIntent);
-                        return true;
-                    case R.id.history:
-                        // Navigate to history activity or perform history action
-                        Intent historyIntent = new Intent(MainActivity.this, ManLichSu.class);
-                        startActivity(historyIntent);
-                        return true;
+                int itemId = item.getItemId();
+                if (itemId == R.id.home) {
+                    Intent homeIntent = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(homeIntent);
+                    return true;
+                } else if (itemId == R.id.category) {
+                    Intent categoryIntent = new Intent(MainActivity.this, ManDanhMuc.class);
+                    startActivity(categoryIntent);
+                    return true;
+                } else if (itemId == R.id.history) {
+                    Intent historyIntent = new Intent(MainActivity.this, ManLichSu.class);
+                    startActivity(historyIntent);
+                    return true;
                 }
                 return false;
             }

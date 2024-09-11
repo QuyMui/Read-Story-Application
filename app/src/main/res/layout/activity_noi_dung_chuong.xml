@@ -1,24 +1,58 @@
-<!-- activity_noi_chuong.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Display chapter title and content -->
     <TextView
         android:id="@+id/txtTenChuong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:text="Chapter Title"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="8dp"/>
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="8dp" />
 
-    <TextView
-        android:id="@+id/txtNoiDungChuong"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/txtNoiDungChuong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chapter Content"
+            android:textSize="16sp" />
+    </ScrollView>
+
+    <!-- Navigation arrows for previous and next chapters -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtTenChuong"
-        android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="16dp">
+
+        <!-- Previous Chapter Button -->
+        <Button
+            android:id="@+id/btnPrevChapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Previous"
+            android:padding="8dp"
+            android:layout_weight="1"/>
+
+        <!-- Next Chapter Button -->
+        <Button
+            android:id="@+id/btnNextChapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next →"
+            android:padding="8dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>

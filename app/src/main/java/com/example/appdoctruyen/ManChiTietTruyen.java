@@ -1,8 +1,10 @@
 package com.example.appdoctruyen;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -32,6 +34,8 @@ public class ManChiTietTruyen extends AppCompatActivity {
     private adapterchaptruyen adapter;
     private DatabaseDocTruyen databaseDocTruyen;
     private int storyId;
+    private int chapterId;
+    private int categoryId;  // New variable for categoryId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +53,37 @@ public class ManChiTietTruyen extends AppCompatActivity {
         storyId = intent.getIntExtra("storyId", -1);
         String tenTruyen = intent.getStringExtra("tentruyen");
         String chiTiet = intent.getStringExtra("chitiet");
-        String anhTruyen = intent.getStringExtra("anhtruyen"); // Receiving the image URL
+        String anhTruyen = intent.getStringExtra("anhtruyen");  // Receiving the image URL
+        categoryId = intent.getIntExtra("categoryId", -1);  // Receiving the category ID
 
         // Hiển thị dữ liệu truyện lên giao diện
         txtTenTruyen.setText(tenTruyen);
         txtChiTiet.setText(chiTiet);
-        loadAnhTruyen(anhTruyen); // Use the image URL to load the image
+        loadAnhTruyen(anhTruyen);  // Use the image URL to load the image
 
         // Tải dữ liệu chapter từ cơ sở dữ liệu và thiết lập adapter cho ListView
-
         loadChapterData();
         setupListViewAdapter();
 
+        // Lấy vị trí chương đã đọc trước đó (nếu có)
+        int lastPosition = databaseDocTruyen.getLastReadPosition(storyId);
+        if (lastPosition != -1) {
+            // Nếu có chương đã đọc trước đó, mở chương đó
+            docChapter(lastPosition);
+        }
+
         // Xử lý sự kiện click vào nút "Đọc"
         btnDocTruyen.setOnClickListener(v -> docChapterDauTien());
+    }
+
+    private void docChapter(int lastPosition) {
+
+            Intent chapterIntent = new Intent(ManChiTietTruyen.this, ManNoiDungChuong.class);
+            chapterIntent.putExtra("chapterId", chapterId);
+            chapterIntent.putExtra("storyId", storyId);
+            startActivity(chapterIntent);
+
+
     }
 
     private void anhXa() {
@@ -105,10 +126,6 @@ public class ManChiTietTruyen extends AppCompatActivity {
                 cursor.close();
             }
         }
-
-
-
-
     }
 
     private void setupListViewAdapter() {
@@ -117,18 +134,30 @@ public class ManChiTietTruyen extends AppCompatActivity {
 
         listViewChapters.setOnItemClickListener((parent, view, position, id) -> {
             Chapter selectedChapter = arrChap.get(position);
+
+            // Lưu vị trí chương mà người dùng đã chọn và truyền tên truyện (storyTitle)
+            String storyTitle = txtTenTruyen.getText().toString();  // Lấy tên truyện từ TextView
+            databaseDocTruyen.saveReadingPosition(storyId, selectedChapter.getId(), storyTitle);
+
             Intent chapterIntent = new Intent(ManChiTietTruyen.this, ManNoiDungChuong.class);
             chapterIntent.putExtra("chapterId", selectedChapter.getId());
+            chapterIntent.putExtra("storyId", storyId); // Truyền storyId
             startActivity(chapterIntent);
         });
     }
+
 
 
     private void docChapterDauTien() {
         if (!arrChap.isEmpty()) {
             Intent chapterIntent = new Intent(ManChiTietTruyen.this, ManNoiDungChuong.class);
             chapterIntent.putExtra("chapterId", arrChap.get(0).getId());
+            chapterIntent.putExtra("storyId", storyId); // Pass the storyId
             startActivity(chapterIntent);
         }
     }
+
+
+
+
 }

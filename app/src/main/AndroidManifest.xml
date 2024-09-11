@@ -38,12 +38,21 @@
             android:name=".ManDangBai"
             android:exported="false" />
         <activity
-            android:name=".ManDangNhap"
+            android:name=".ManDanhMuc"
+            android:exported="false" />
+        <activity
+            android:name=".ManDanhSachTruyen"
+            android:exported="false" />
+        <activity
+            android:name=".ManLichSu"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".ManDanhMuc" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".MainActivity"
+             android:name=".ManDangNhap"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

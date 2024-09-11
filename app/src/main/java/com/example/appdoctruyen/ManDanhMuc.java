@@ -1,65 +1,91 @@
 package com.example.appdoctruyen;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appdoctruyen.adapter.adaptertruyen;
+import com.example.appdoctruyen.adapter.adapterdanhmuc;
 import com.example.appdoctruyen.data.DatabaseDocTruyen;
-import com.example.appdoctruyen.object.Truyen;
+import com.example.appdoctruyen.object.DanhMuc;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class ManDanhMuc extends AppCompatActivity {
-}
 
-//    DatabaseDocTruyen databaseDocTruyen;
-//    List<Truyen> storyList;
-//    RecyclerView recyclerView;
-//    adaptertruyen storyAdapter;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_category_stories);
-//
-//        // Ánh xạ RecyclerView
-//        recyclerView = findViewById(R.id.recyclerViewStories);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        // Nhận danh mục đã chọn từ intent
-//        String category = getIntent().getStringExtra("CATEGORY");
-//
-//        // Khởi tạo cơ sở dữ liệu
-//        databaseDocTruyen = new DatabaseDocTruyen(this);
-//
-//        // Lấy danh sách truyện theo danh mục
-//        storyList = getStoriesByCategory(category); // Phương thức để lấy truyện từ cơ sở dữ liệu dựa trên danh mục
-//
-//        // Thiết lập adapter cho RecyclerView
-//        storyAdapter = new adaptertruyen(this, R.layout.list_item_truyen, storyList);
-//        recyclerView.setAdapter(storyAdapter);
-//    }
-//
-//    private List<Truyen> getStoriesByCategory(String category) {
-//        List<Truyen> stories = new ArrayList<>();
-//        Cursor cursor = databaseDocTruyen.getStoriesByCategory(category);
-//
-//        while (cursor.moveToNext()) {
-//            int id = cursor.getInt(0);
-//            String title = cursor.getString(1);
-//            String detail = cursor.getString(2);
-//            String image = cursor.getString(3);
-//            int accountId = cursor.getInt(4);
-//            stories.add(new Truyen(id, title, detail, image, accountId));
-//        }
-//        cursor.close();
-//
-//        return stories;
-//    }
-//}
-//
+    private ListView listViewCategories;
+    private ArrayList<DanhMuc> categories;
+    private adapterdanhmuc adapter;
+    private DatabaseDocTruyen databaseDocTruyen;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_category_stories);
+
+        // Kết nối ListView với giao diện
+        listViewCategories = findViewById(R.id.listViewCategories);
+
+        // Khởi tạo danh sách các danh mục và adapter
+        categories = new ArrayList<>();
+        adapter = new adapterdanhmuc(this, categories);
+        listViewCategories.setAdapter(adapter);
+
+        // Lấy dữ liệu danh mục từ cơ sở dữ liệu
+        databaseDocTruyen = new DatabaseDocTruyen(this);
+        loadCategoriesFromDatabase();
+
+        // Xử lý sự kiện khi nhấp vào một mục danh mục
+        listViewCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lấy ID của danh mục được chọn
+                DanhMuc selectedCategory = categories.get(position);
+                int categoryId = selectedCategory.getId();
+
+                // Chuyển sang Activity hiển thị chi tiết truyện theo danh mục
+                Intent intent = new Intent(ManDanhMuc.this, ManDanhSachTruyen.class);
+                intent.putExtra("categoryId", categoryId);
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Hàm để lấy danh sách các danh mục từ cơ sở dữ liệu
+    private void loadCategoriesFromDatabase() {
+        Cursor cursor = databaseDocTruyen.getAllCategories();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // Ensure column indexes are valid
+            int idColumnIndex = cursor.getColumnIndex("iddanhmuc");
+            int nameColumnIndex = cursor.getColumnIndex("tendanhmuc");
+
+            // Check if the column indices are valid
+            if (idColumnIndex == -1 || nameColumnIndex == -1) {
+                // Handle the case where the column does not exist in the result
+                throw new IllegalStateException("Invalid column name in the query result.");
+            }
+
+            // Loop through the cursor
+            do {
+                // Get the data from the cursor safely
+                int iddanhmuc = cursor.getInt(idColumnIndex);
+                String tendanhmuc = cursor.getString(nameColumnIndex);
+
+                // Add the data to the categories list
+                categories.add(new DanhMuc(iddanhmuc, tendanhmuc));
+            } while (cursor.moveToNext());
+
+            // Notify the adapter to update the ListView
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+}
